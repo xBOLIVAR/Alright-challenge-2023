@@ -1,0 +1,12 @@
+{
+  "name": "challenge-eng-lv-1-2",
+  "version": "1.0.0",
+  "description": "Hola! 👋, Si llegaste hasta acá es porque nos estamos llevando muy bien y estás muy cerca de ser una estrella de nuestro equipo :star2:, así que tomate un segundo para sentirte especial, porque para nosotros lo eres! :fire:.",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [],
+  "author": "pabhoz",
+  "license": "ISC"
+}
