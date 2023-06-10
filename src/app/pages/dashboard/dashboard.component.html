@@ -1,0 +1,47 @@
+<mat-toolbar class="mat-elevation-z8">
+    <button
+        mat-icon-button
+        *ngIf="sidenav.mode === 'over'"
+        (click)="sidenav.toggle()"
+    >
+        <mat-icon *ngIf="!sidenav.opened">menu</mat-icon>
+        <mat-icon *ngIf="sidenav.opened">close</mat-icon>
+    </button>
+    Documentos
+</mat-toolbar>
+
+<mat-sidenav-container>
+    <mat-sidenav
+        #sidenav="matSidenav"
+        class="mat-elevation-z8"
+    >
+        <button
+            mat-button
+            class="menu-button"
+            (click)="choose=true"
+        >
+            <mat-icon>home</mat-icon>
+            <span>Mis Documentos</span>
+        </button>
+        <mat-divider></mat-divider>
+
+        <button
+            mat-button
+            class="menu-button"
+            (click)="choose=false"
+        >
+            <mat-icon>person</mat-icon>
+            <span>Mis Revisiones</span>
+        </button>
+    </mat-sidenav>
+    <mat-sidenav-content>
+        <div class="content mat-elevation-z8">
+            <div *ngIf="choose">
+                <app-myDocuments></app-myDocuments>
+            </div>
+            <div *ngIf="!choose">
+                <app-myReviews></app-myReviews>
+            </div>
+        </div>
+    </mat-sidenav-content>
+</mat-sidenav-container>

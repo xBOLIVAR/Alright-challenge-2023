@@ -1,0 +1,57 @@
+<div class="container">
+    <h2>Subir documento</h2>
+    <form [formGroup]="form">
+        <mat-form-field>
+            <input
+                type="text"
+                matInput
+                placeholder="Titulo"
+                formControlName="title"
+            >
+        </mat-form-field>
+        <input
+            type="file"
+            (change)="handleFileUpload($event)"
+            accept=".pdf"
+            class="pdfInput"
+            #fileInput
+            accept=".pdf"
+        >
+        <button
+            mat-icon-button
+            color="blue"
+            (click)="fileInput.click()"
+            [disabled]="!form.get('title')?.value"
+        >
+            <mat-icon>home</mat-icon>
+        </button>
+    </form>
+    <div class="container-card">
+
+        <div
+            *ngFor="let document of documents"
+            class="card"
+        >
+            <div (click)="documentPreview()">
+                <mat-card class="example-card">
+                    <mat-card-header>
+                        <div
+                            mat-card-avatar
+                            class="example-header-image"
+                        ></div>
+                        <mat-card-title>{{document.title}}</mat-card-title>
+                    </mat-card-header>
+                    <img
+                        mat-card-image
+                        [src]="document.image"
+                        alt="Miñatura del documento"
+                    >
+                    <mat-card-content>
+                        <h2>{{document.state}}</h2>
+                    </mat-card-content>
+                </mat-card>
+            </div>
+        </div>
+    </div>
+</div>
+<app-preview></app-preview>

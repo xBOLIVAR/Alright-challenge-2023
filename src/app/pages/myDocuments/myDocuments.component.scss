@@ -1,0 +1,45 @@
+.container {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+}
+
+.example-card {
+  max-width: 300px;
+}
+
+.example-header-image {
+  background-image: url("https://t3.ftcdn.net/jpg/05/00/52/34/360_F_500523475_qM54U8XIbdhHPouvNmu4bjrBpD6wrlSv.jpg");
+  background-size: cover;
+}
+
+.container-card {
+  display: flex;
+  justify-content: center; /* Centra los elementos horizontalmente */
+  align-items: center; /* Centra los elementos verticalmente */
+  flex-wrap: wrap;
+}
+
+.card {
+  margin: 10px; /* Establece el margen entre los elementos */
+}
+
+.card:hover {
+  /* Estilos que deseas aplicar cuando se pasa el mouse por encima */
+  background-color: #000000;
+  cursor: pointer;
+}
+
+.pdfInput{
+  display: none;
+}
+
+img {
+  width: 230px;
+  height: 180px;
+}
+
+button {
+  background-color: #004a9f;
+}
