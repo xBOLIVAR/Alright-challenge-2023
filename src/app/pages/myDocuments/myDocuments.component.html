@@ -29,25 +29,25 @@
     <div class="container-card">
 
         <div
-            *ngFor="let document of documents"
+            *ngFor="let document of documents; let docIndex=index"
             class="card"
         >
-            <div (click)="documentPreview()">
+            <div (click)="documentPreview(document.title, docIndex)">
                 <mat-card class="example-card">
                     <mat-card-header>
                         <div
                             mat-card-avatar
                             class="example-header-image"
                         ></div>
-                        <mat-card-title>{{document.title}}</mat-card-title>
+                        <mat-card-title>{{document?.title}}</mat-card-title>
                     </mat-card-header>
                     <img
                         mat-card-image
-                        [src]="document.image"
+                        [src]="document?.image"
                         alt="Miñatura del documento"
                     >
                     <mat-card-content>
-                        <h2>{{document.state}}</h2>
+                        <h2>{{document?.state}}</h2>
                     </mat-card-content>
                 </mat-card>
             </div>

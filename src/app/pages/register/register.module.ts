@@ -7,11 +7,13 @@ import {MatCardModule} from '@angular/material/card';
 import {MatInputModule} from '@angular/material/input';
 import {MatButtonModule} from '@angular/material/button';
 import { ReactiveFormsModule } from "@angular/forms";
+import {MatProgressSpinnerModule} from '@angular/material/progress-spinner';
 
 const materials = [
   MatCardModule,
   MatInputModule,
-  MatButtonModule
+  MatButtonModule,
+  MatProgressSpinnerModule
 ];
 
 @NgModule({

@@ -11,9 +11,10 @@ import { MatIconModule } from '@angular/material/icon';
 import { MyDocumentsComponent } from '../myDocuments/myDocuments.component';
 import { MyReviewsComponent } from '../myReviews/myReviews.component';
 import { MatCardModule } from '@angular/material/card';
-import { ReactiveFormsModule } from '@angular/forms';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { MatInputModule } from '@angular/material/input';
 import { PreviewComponent } from 'src/app/components/modals/preview/preview.component';
+import {MatSelectModule} from '@angular/material/select';
 
 const materials = [
   MatToolbarModule,
@@ -24,6 +25,7 @@ const materials = [
   MatIconModule,
   MatCardModule,
   MatInputModule,
+  MatSelectModule
 ];
 
 @NgModule({
@@ -38,6 +40,7 @@ const materials = [
     DashboardRoutingModule,
     materials,
     ReactiveFormsModule,
+    FormsModule
   ],
 })
 export class DashboardModule {}

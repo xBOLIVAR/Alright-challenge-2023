@@ -7,7 +7,7 @@
             class="modal-title"
             id="modal-basic-title"
         >
-            Profile update
+            {{title}}
         </h4>
         <button
             type="button"
@@ -17,7 +17,30 @@
         ></button>
     </div>
     <div class="modal-body">
-        <h2>Hello</h2>
+        <div class="form-group">
+            <label for="cars">Cars</label>
+            <select
+                class="form-control"
+                id="cars"
+                name="reviewer"
+                [(ngModel)]="selectedValue"
+            >
+                <option
+                    *ngFor="let reviewer of reviewers"
+                    [value]="reviewer.email"
+                >
+                    {{ reviewer.name }}
+                </option>
+            </select>
+        </div>
+        <button
+            type="button"
+            class="btn btn-primary"
+            [disabled]="!selectedValue"
+            (click)="selectReviewer(); modal.close(true)"
+        >
+            Aceptar
+        </button>
     </div>
     <div class="modal-footer"></div>
 </ng-template>
