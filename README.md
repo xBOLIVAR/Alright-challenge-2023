@@ -1,4 +1,6 @@
 # Alright - Technical Challenge Eng Lv 1 to 3
+Las tecnogias que se uso son Angular con Node.js y Express.js, Adamas como base de datos se uso Firebase
+
 Para iniciar el proyecto se uniliza los siguientes comandos
 
 - npm install 
