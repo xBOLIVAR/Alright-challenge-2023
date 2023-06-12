@@ -1,0 +1,38 @@
+<ng-template
+    #alert
+    let-modal
+>
+    <div class="modal-header">
+        <h2
+            class="modal-title"
+            id="modal-basic-title"
+        >
+            Alerta
+        </h2>
+        <button
+            type="button"
+            class="btn-close"
+            aria-label="Close"
+            (click)="modal.dismiss(false)"
+        ></button>
+    </div>
+    <div class="modal-body">
+        <h3>Esta seguro de borrar este documento</h3>
+    </div>
+    <div class="modal-footer">
+        <button
+            type="button"
+            class="btn btn-primary"
+            (click)="modal.close(true)"
+        >
+            Aceptar
+        </button>
+        <button
+            type="button"
+            class="btn btn-danger"
+            (click)="modal.close(false)"
+        >
+            Cancelar
+        </button>
+    </div>
+</ng-template>

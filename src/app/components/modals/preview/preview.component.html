@@ -16,9 +16,20 @@
             (click)="modal.dismiss('Cross click')"
         ></button>
     </div>
-    <div class="modal-body">
+    <!-- <div>
+        <h2>Visualizar Documento</h2>
+        <embed
+            type="application/pdf"
+            width="400"
+            height="400"
+        >
+    </div> -->
+    <div
+        class="modal-body"
+        *ngIf="state != 'En revisión'"
+    >
         <div class="form-group">
-            <label for="cars">Cars</label>
+            <label for="cars">Revisor</label>
             <select
                 class="form-control"
                 id="cars"
@@ -37,7 +48,7 @@
             type="button"
             class="btn btn-primary"
             [disabled]="!selectedValue"
-            (click)="selectReviewer(); modal.close(true)"
+            (click)="selectReviewer(); modal.close('En revisión')"
         >
             Aceptar
         </button>

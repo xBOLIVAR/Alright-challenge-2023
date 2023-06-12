@@ -1,5 +1,6 @@
 import { Component, OnInit, ElementRef, ViewChild } from '@angular/core';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
+import { DocumentsService } from 'src/app/shared/services/documents.service';
 import { UserService } from 'src/app/shared/services/user.service';
 
 @Component({
@@ -13,39 +14,36 @@ export class PreviewComponent implements OnInit {
   title = '';
   selectedValue: any;
   reviewers: any = [];
+  state = '';
   private keys: any = [];
   private idDocument = '';
 
   constructor(
     private modalService: NgbModal,
-    private userService: UserService
+    private userService: UserService,
+    private documentService: DocumentsService
   ) {}
 
   async ngOnInit() {
     const allReviewers = await this.userService.getReviewers();
     this.reviewers = Object.values(allReviewers);
     this.keys = Object.keys(allReviewers);
-    console.log(
-      '🚀 ~ file: preview.component.ts:21 ~ PreviewComponent ~ ngOnInit ~ this.reviewers:',
-      this.reviewers
-    );
+
+    // const pdfFileURL = URL.createObjectURL();
   }
 
-  open(title: string, idDocument: string) {
-    console.log(
-      '🚀 ~ file: preview.component.ts:35 ~ PreviewComponent ~ open ~ idDocument:',
-      idDocument
-    );
+  open(title: string, idDocument: string, state: string) {
+    this.state = state;
     this.idDocument = idDocument;
     this.title = title;
-    this.modalService
+    return this.modalService
       .open(this.modalRef, { ariaLabelledBy: 'modal-basic-title' })
       .result.then(
         (result) => {
-          return;
+          return result;
         },
         (reason) => {
-          return;
+          return reason;
         }
       );
   }
@@ -58,6 +56,6 @@ export class PreviewComponent implements OnInit {
       idDocument: this.idDocument,
       title: this.title,
     });
-    console.log(this.selectedValue);
+    this.documentService.setStateDocument(this.idDocument);
   }
 }

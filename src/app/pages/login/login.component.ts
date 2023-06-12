@@ -45,7 +45,6 @@ export class LoginComponent {
     }
 
     this.loading = true;
-    console.log(this.form.value);
     this.userService.userLogin(this.form.value).subscribe({
       next: (response: any) => {
         localStorage.setItem('token', response.token);

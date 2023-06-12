@@ -23,7 +23,7 @@
             (click)="fileInput.click()"
             [disabled]="!form.get('title')?.value"
         >
-            <mat-icon>home</mat-icon>
+            <mat-icon>folder</mat-icon>
         </button>
     </form>
     <div class="container-card">
@@ -32,7 +32,7 @@
             *ngFor="let document of documents; let docIndex=index"
             class="card"
         >
-            <div (click)="documentPreview(document.title, docIndex)">
+            <div>
                 <mat-card class="example-card">
                     <mat-card-header>
                         <div
@@ -45,13 +45,23 @@
                         mat-card-image
                         [src]="document?.image"
                         alt="Miñatura del documento"
+                        (click)="documentPreview(document.title, docIndex, document.state)"
                     >
                     <mat-card-content>
                         <h2>{{document?.state}}</h2>
                     </mat-card-content>
+                    <button
+                        mat-fab
+                        color="primary"
+                        aria-label="Example icon button with a delete icon"
+                        (click)="deleteDocument(docIndex)"
+                    >
+                        <mat-icon>delete</mat-icon>
+                    </button>
                 </mat-card>
             </div>
         </div>
     </div>
 </div>
 <app-preview></app-preview>
+<app-alert></app-alert>

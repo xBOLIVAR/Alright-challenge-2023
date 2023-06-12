@@ -27,6 +27,7 @@
     "@types/popper.js": "^1.11.0",
     "bootstrap": "^5.2.0",
     "firebase": "^9.22.2",
+    "firebase-admin": "^11.9.0",
     "pdfjs-dist": "^3.7.107",
     "rxjs": "~7.8.0",
     "tslib": "^2.3.0",

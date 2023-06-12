@@ -3,6 +3,7 @@ import { FormControl, FormGroup } from '@angular/forms';
 import { PreviewComponent } from 'src/app/components/modals/preview/preview.component';
 import { DocumentsService } from 'src/app/shared/services/documents.service';
 import * as pdfjsLib from 'pdfjs-dist';
+import { AlertComponent } from 'src/app/components/modals/alert/alert.component';
 
 @Component({
   selector: 'app-myDocuments',
@@ -12,16 +13,20 @@ import * as pdfjsLib from 'pdfjs-dist';
 export class MyDocumentsComponent implements OnInit {
   @ViewChild(PreviewComponent, { static: true })
   preview!: PreviewComponent;
+  @ViewChild(AlertComponent, { static: true })
+  alert!: AlertComponent;
+  @ViewChild('fileInput') fileInput: any;
   documents: any = [];
   private thumbnail!: string;
-  private documentKeys:any = []
+  private documentKeys: any = [];
+  private dataDocument!: any;
 
   constructor(private documentsService: DocumentsService) {}
 
   async ngOnInit() {
-    const allDocuments = await this.documentsService.callDocumentsEndpoint()
-     this.documents = Object.values(allDocuments)
-     this.documentKeys = Object.keys(allDocuments)
+    const allDocuments = await this.documentsService.callDocumentsEndpoint();
+    this.documents = Object.values(allDocuments);
+    this.documentKeys = Object.keys(allDocuments);
   }
 
   public form: FormGroup = new FormGroup({
@@ -34,10 +39,14 @@ export class MyDocumentsComponent implements OnInit {
         image: this.thumbnail,
         title: this.form.get('title')?.value,
         state: 'Sin revisar',
+        file: this.dataDocument,
       })
       .subscribe({
-        next: () => {
+        next: (document: any) => {
+          this.documents.push(document.document);
+          this.documentKeys.push(document.documentId)
           this.form.get('title')?.reset();
+          this.fileInput.nativeElement.value = '';
         },
         error: (error) => {},
       });
@@ -45,6 +54,7 @@ export class MyDocumentsComponent implements OnInit {
 
   handleFileUpload(event: any) {
     const file = event.target.files[0];
+    this.dataDocument = file;
     const maxSize = 5 * 1024 * 1024; // 5 MB
 
     if (file && file.size > maxSize) {
@@ -53,17 +63,13 @@ export class MyDocumentsComponent implements OnInit {
       return;
     }
 
-    console.log('Archivo seleccionado:', file);
-
     const fileReader = new FileReader();
     fileReader.onload = (e: any) => {
       const typedArray = new Uint8Array(e.target.result as ArrayBuffer);
 
-      // Cargar el documento PDF utilizando pdf.js
       pdfjsLib.getDocument(typedArray).promise.then((pdf: any) => {
-        // Obtener la página del PDF para generar la miniatura (en este caso, la primera página)
         pdf.getPage(1).then((page: any) => {
-          const viewport = page.getViewport({ scale: 0.5 }); // Escala de la miniatura (ajústala según tus necesidades)
+          const viewport = page.getViewport({ scale: 0.5 });
           const canvas = document.createElement('canvas');
           const context = canvas.getContext('2d');
 
@@ -84,9 +90,29 @@ export class MyDocumentsComponent implements OnInit {
     }
   }
 
-  async documentPreview(title:string, docIndex:number) {
-    console.log("🚀 ~ file: myDocuments.component.ts:88 ~ MyDocumentsComponent ~ documentPreview ~ docIndex:", docIndex);
-    console.log("🚀 ~ file: myDocuments.component.ts:90 ~ MyDocumentsComponent ~ documentPreview ~ this.documentKeys:", this.documentKeys);
-    this.preview.open(title, this.documentKeys[docIndex]);
+  async documentPreview(title: string, docIndex: number, state: string) {
+    const answerModal = await this.preview.open(
+      title,
+      this.documentKeys[docIndex],
+      state
+    );
+    if (answerModal) {
+      this.documents[docIndex].state = answerModal;
+    }
+  }
+
+  async deleteDocument(docIndex: number) {
+    console.log(
+      '🚀 ~ file: myDocuments.component.ts:100 ~ MyDocumentsComponent ~ deleteDocument ~ docIndex:',
+      docIndex
+    );
+    const answerModal = await this.alert.open();
+    if (answerModal) {
+      await this.documentsService.deleteDocumentHandler(
+        this.documentKeys[docIndex]
+      );
+      this.documentKeys.splice(docIndex, 1);
+      this.documents.splice(docIndex, 1);
+    }
   }
 }

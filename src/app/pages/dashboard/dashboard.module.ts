@@ -15,6 +15,7 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { MatInputModule } from '@angular/material/input';
 import { PreviewComponent } from 'src/app/components/modals/preview/preview.component';
 import {MatSelectModule} from '@angular/material/select';
+import { AlertComponent } from "src/app/components/modals/alert/alert.component";
 
 const materials = [
   MatToolbarModule,
@@ -34,6 +35,7 @@ const materials = [
     MyDocumentsComponent,
     MyReviewsComponent,
     PreviewComponent,
+    AlertComponent
   ],
   imports: [
     CommonModule,
