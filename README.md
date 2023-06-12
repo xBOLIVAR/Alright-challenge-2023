@@ -3,3 +3,11 @@ Para iniciar el proyecto se uniliza los siguientes comandos
 
 - npm install 
 - ng serve
+
+El Link de los servicios (BackEnd):
+https://github.com/xBOLIVAR/serviciosDocumentos.git
+
+para correr los servicios seguir los siguientes pasos
+- npm install
+- npx tsc
+- npx nodemon dist/app.js
