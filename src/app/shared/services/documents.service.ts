@@ -8,14 +8,12 @@ import { AngularFireDatabase } from '@angular/fire/compat/database';
   providedIn: 'root',
 })
 export class DocumentsService {
-  private uid = localStorage.getItem('uid');
-
   constructor(private http: HttpClient, private db: AngularFireDatabase) {}
 
-  callDocumentsEndpoint() {
+  callDocumentsEndpoint(uid: string | null) {
     return new Promise<any>((resolve, reject) => {
       const subscriptionService: Subscription = this.http
-        .get(`${environment.localhost}/documents/${this.uid}`)
+        .get(`${environment.localhost}/documents/${uid}`)
         .subscribe({
           next: (data: any) => {
             subscriptionService.unsubscribe();
@@ -25,16 +23,19 @@ export class DocumentsService {
     });
   }
 
-  getDocuments() {
-    return this.db.object(`documents/${this.uid}`).valueChanges();
+  getDocuments(uid: string) {
+    return this.db.object(`documents/${uid}`).valueChanges();
   }
 
-  createDocumentHandler(documentData: {
-    image: string;
-    title: string;
-    state: string;
-    file: File;
-  }) {
+  createDocumentHandler(
+    documentData: {
+      image: string;
+      title: string;
+      state: string;
+      file: File;
+    },
+    uid: string | null
+  ) {
     const fileData = new Blob([documentData.file], {
       type: documentData.file.type,
     });
@@ -47,18 +48,15 @@ export class DocumentsService {
     };
 
     return this.http.post(
-      `${environment.localhost}/documents/${this.uid}`,
+      `${environment.localhost}/documents/${uid}`,
       requestData
     );
   }
 
-  setStateDocument(idDocument: string) {
+  setStateDocument(idDocument: string, uid: string | null) {
     return new Promise<any>((resolve, reject) => {
       const subscriptionService: Subscription = this.http
-        .patch(
-          `${environment.localhost}/documents/${this.uid}/${idDocument}`,
-          null
-        )
+        .patch(`${environment.localhost}/documents/${uid}/${idDocument}`, null)
         .subscribe({
           next: (data: any) => {
             subscriptionService.unsubscribe();
@@ -72,10 +70,10 @@ export class DocumentsService {
     });
   }
 
-  deleteDocumentHandler(idDocument: string) {
+  deleteDocumentHandler(idDocument: string, uid: string | null) {
     return new Promise<any>((resolve, reject) => {
       const subscriptionService: Subscription = this.http
-        .delete(`${environment.localhost}/documents/${this.uid}/${idDocument}`)
+        .delete(`${environment.localhost}/documents/${uid}/${idDocument}`)
         .subscribe({
           next: (data: any) => {
             subscriptionService.unsubscribe();
@@ -84,6 +82,20 @@ export class DocumentsService {
           error: (error) => {
             subscriptionService.unsubscribe();
             reject(error);
+          },
+        });
+    });
+  }
+
+  async getMyReviews(uid: string | null) {
+    return await new Promise<any>((resolve) => {
+      const subscriptionService: Subscription = this.http
+        .get(`${environment.localhost}/users/${uid}/reviewers`)
+        .subscribe({
+          next: (data: any) => {
+            console.log("🚀 ~ file: documents.service.ts:96 ~ DocumentsService ~ getMyReviews ~ data:", data);
+            subscriptionService.unsubscribe();
+            resolve(data);
           },
         });
     });

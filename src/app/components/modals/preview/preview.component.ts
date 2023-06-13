@@ -14,6 +14,7 @@ export class PreviewComponent implements OnInit {
   title = '';
   selectedValue: any;
   reviewers: any = [];
+  uid: string | null = '';
   state = '';
   private keys: any = [];
   private idDocument = '';
@@ -32,10 +33,11 @@ export class PreviewComponent implements OnInit {
     // const pdfFileURL = URL.createObjectURL();
   }
 
-  open(title: string, idDocument: string, state: string) {
+  open(title: string, idDocument: string, state: string, uid: string | null) {
     this.state = state;
     this.idDocument = idDocument;
     this.title = title;
+    this.uid = uid;
     return this.modalService
       .open(this.modalRef, { ariaLabelledBy: 'modal-basic-title' })
       .result.then(
@@ -55,7 +57,8 @@ export class PreviewComponent implements OnInit {
     this.userService.setReviewDocuments(this.keys[reviewerIndex], {
       idDocument: this.idDocument,
       title: this.title,
+      owner: this.uid
     });
-    this.documentService.setStateDocument(this.idDocument);
+    this.documentService.setStateDocument(this.idDocument, this.uid);
   }
 }

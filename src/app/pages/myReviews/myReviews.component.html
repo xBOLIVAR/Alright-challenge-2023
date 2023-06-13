@@ -5,14 +5,14 @@
     >
         <mat-card
             class="example-card"
-            *ngIf="document.state == 'En revision'"
+            *ngIf="document?.state == 'En revision'"
         >
             <mat-card-header>
                 <div
                     mat-card-avatar
                     class="example-header-image"
                 ></div>
-                <mat-card-title>{{document.title}}</mat-card-title>
+                <mat-card-title>{{document?.title}}</mat-card-title>
             </mat-card-header>
             <img
                 mat-card-image
@@ -20,7 +20,7 @@
                 alt="Miñatura del documento"
             >
             <mat-card-content>
-                <h2>{{document.state}}</h2>
+                <h2>{{document?.state}}</h2>
             </mat-card-content>
         </mat-card>
     </div>

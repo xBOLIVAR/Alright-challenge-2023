@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
+import { Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { FormControl, FormGroup } from '@angular/forms';
 import { PreviewComponent } from 'src/app/components/modals/preview/preview.component';
 import { DocumentsService } from 'src/app/shared/services/documents.service';
@@ -10,7 +10,7 @@ import { AlertComponent } from 'src/app/components/modals/alert/alert.component'
   templateUrl: './myDocuments.component.html',
   styleUrls: ['./myDocuments.component.scss'],
 })
-export class MyDocumentsComponent implements OnInit {
+export class MyDocumentsComponent implements OnInit, OnDestroy {
   @ViewChild(PreviewComponent, { static: true })
   preview!: PreviewComponent;
   @ViewChild(AlertComponent, { static: true })
@@ -20,13 +20,22 @@ export class MyDocumentsComponent implements OnInit {
   private thumbnail!: string;
   private documentKeys: any = [];
   private dataDocument!: any;
+  private uid = localStorage.getItem('uid');
 
   constructor(private documentsService: DocumentsService) {}
 
   async ngOnInit() {
-    const allDocuments = await this.documentsService.callDocumentsEndpoint();
+    const allDocuments = await this.documentsService.callDocumentsEndpoint(
+      this.uid
+    );
     this.documents = Object.values(allDocuments);
     this.documentKeys = Object.keys(allDocuments);
+  }
+
+  ngOnDestroy(): void {
+    this.dataDocument = [];
+    this.documentKeys = [];
+    this.uid = '';
   }
 
   public form: FormGroup = new FormGroup({
@@ -35,16 +44,19 @@ export class MyDocumentsComponent implements OnInit {
 
   submit() {
     this.documentsService
-      .createDocumentHandler({
-        image: this.thumbnail,
-        title: this.form.get('title')?.value,
-        state: 'Sin revisar',
-        file: this.dataDocument,
-      })
+      .createDocumentHandler(
+        {
+          image: this.thumbnail,
+          title: this.form.get('title')?.value,
+          state: 'Sin revisar',
+          file: this.dataDocument,
+        },
+        this.uid
+      )
       .subscribe({
         next: (document: any) => {
           this.documents.push(document.document);
-          this.documentKeys.push(document.documentId)
+          this.documentKeys.push(document.documentId);
           this.form.get('title')?.reset();
           this.fileInput.nativeElement.value = '';
         },
@@ -94,7 +106,8 @@ export class MyDocumentsComponent implements OnInit {
     const answerModal = await this.preview.open(
       title,
       this.documentKeys[docIndex],
-      state
+      state,
+      this.uid
     );
     if (answerModal) {
       this.documents[docIndex].state = answerModal;
@@ -109,7 +122,8 @@ export class MyDocumentsComponent implements OnInit {
     const answerModal = await this.alert.open();
     if (answerModal) {
       await this.documentsService.deleteDocumentHandler(
-        this.documentKeys[docIndex]
+        this.documentKeys[docIndex],
+        this.uid
       );
       this.documentKeys.splice(docIndex, 1);
       this.documents.splice(docIndex, 1);

@@ -36,13 +36,13 @@ export class UserService {
 
   setReviewDocuments(
     idUser: string,
-    idDocument: { idDocument: string; title: string }
+    datoDocument: { idDocument: string; title: string; owner: string | null }
   ) {
     return new Promise<any>((resolve, reject) => {
       const subscriptionService: Subscription = this.http
         .post(
           `${environment.localhost}/users/${idUser}/reviewDocuments`,
-          idDocument
+          datoDocument
         )
         .subscribe({
           next: (data: any) => {
