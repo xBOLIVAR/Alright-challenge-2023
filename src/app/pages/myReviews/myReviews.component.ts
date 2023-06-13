@@ -16,16 +16,6 @@ export class MyReviewsComponent implements OnInit, OnDestroy {
     this.documents = Object.values(
       await this.documentService.getMyReviews(this.uid)
     );
-    this.documents.push({
-      image:
-        'https://upload.wikimedia.org/wikipedia/commons/4/4c/Typescript_logo_2020.svg',
-      title: 'TypeScript',
-      state: 'En revision',
-    });
-    console.log(
-      '🚀 ~ file: myReviews.component.ts:17 ~ MyReviewsComponent ~ ngOnInit ~ this.documents:',
-      this.documents
-    );
   }
 
   ngOnDestroy(): void {
