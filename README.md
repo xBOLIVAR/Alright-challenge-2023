@@ -40,13 +40,21 @@ en cuanto a la base de datos se uso Realtime Database firebase, el cual tiene la
 
 # Los endPoints que se usaron
 -app.get("/documents/:uid", getUserDocumentsHandler): se utiliza para obtener los documentos del usuario
+
 -app.get("/users/reviewers", getReviewers): se utiliza para saber qué usuarios son revisores
+
 -app.get("/users/:uid/reviewers", getMyReviews): se utiliza para saber qué usuarios son revisores
+
 -app.post("/documents/:uid", saveDocumentHandler): se utiliza para guardar los documentos que el usuario subió
+
 -app.post("/login", loginHandler): iniciar sesión con correo y contraseña
+
 -app.post("/register", registerHandler): registrar usuario con correo y contraseña
+
 -app.post("/users/:uid/reviewDocuments", setReviewDocuments): se le agrega a los revisores una propiedad, en donde muestra los documentos que les toca revisar
+
 -app.patch('/documents/:uid/:idDocument', setStateDocument): se cambia el estado del documento a "En revisión"
+
 -app.delete("/documents/:uid/:idDocument", deleteDocumentHandler): se elimina el documento 
 
 # Desarrollo
