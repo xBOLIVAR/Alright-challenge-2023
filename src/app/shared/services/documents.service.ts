@@ -93,7 +93,6 @@ export class DocumentsService {
         .get(`${environment.localhost}/users/${uid}/reviewers`)
         .subscribe({
           next: (data: any) => {
-            console.log("🚀 ~ file: documents.service.ts:96 ~ DocumentsService ~ getMyReviews ~ data:", data);
             subscriptionService.unsubscribe();
             resolve(data);
           },

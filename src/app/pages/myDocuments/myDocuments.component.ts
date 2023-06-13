@@ -115,10 +115,6 @@ export class MyDocumentsComponent implements OnInit, OnDestroy {
   }
 
   async deleteDocument(docIndex: number) {
-    console.log(
-      '🚀 ~ file: myDocuments.component.ts:100 ~ MyDocumentsComponent ~ deleteDocument ~ docIndex:',
-      docIndex
-    );
     const answerModal = await this.alert.open();
     if (answerModal) {
       await this.documentsService.deleteDocumentHandler(
